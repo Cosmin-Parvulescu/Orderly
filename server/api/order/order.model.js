@@ -6,7 +6,7 @@ var mongoose = require('mongoose'),
 var OrderSchema = new Schema({
   restaurant: String,
   date: { type: Date, default: Date.now },
-  orderStatus: { type: Schema.ObjectId, ref: 'OrderStatus' },
+  orderstatus: { type: Schema.ObjectId, ref: 'Orderstatus' },
   owner: { type: Schema.ObjectId, ref: 'User' },
   orderlines: [{ type: Schema.ObjectId, ref: 'Orderline'}]
 });
