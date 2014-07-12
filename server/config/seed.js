@@ -5,8 +5,35 @@
 
 'use strict';
 
+var Orderstatus = require('../api/orderstatus/orderstatus.model');
+var Order = require('../api/order/order.model');
 var Thing = require('../api/thing/thing.model');
 var User = require('../api/user/user.model');
+
+Orderstatus.find({}).remove(function() {
+  Orderstatus.create({
+    status: 'Initiat'
+  }, {
+    status: 'Prelucrat'
+  }, {
+    status: 'Finalizat'
+  }, {
+    status: 'Anulat'
+  }, function() {
+    console.log('Finished populating Orderstatuses');
+  });
+});
+
+Order.find({}).remove(function() {
+  Orderstatus.findOne({ status: 'Initiat' }, function(err, orderstatusRes) {
+    Order.create({
+      restaurant: 'Graffiti',
+      orderstatus: orderstatusRes._id
+    }, function() {
+      console.log('Finished populating Orders');
+    });
+  });
+});
 
 Thing.find({}).remove(function() {
   Thing.create({
