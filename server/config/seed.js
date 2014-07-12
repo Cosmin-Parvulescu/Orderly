@@ -5,6 +5,7 @@
 
 'use strict';
 
+var Orderline = require('../api/orderline/orderline.model');
 var Orderstatus = require('../api/orderstatus/orderstatus.model');
 var Order = require('../api/order/order.model');
 var Thing = require('../api/thing/thing.model');
@@ -31,6 +32,23 @@ Order.find({}).remove(function() {
       orderstatus: orderstatusRes._id
     }, function() {
       console.log('Finished populating Orders');
+
+      Order.findOne(function(err, orderRes) {
+        var foodstuff = [{
+          name: 'Pork Tandoori',
+          price: 18.5 // desi e 18 :(
+        }, {
+          name: 'Tortellini bianco al forno',
+          price: 18
+        }];
+
+        Orderline.create({
+          order: orderRes._id,
+          orderitems: foodstuff
+        }, function() {
+          console.log('Finished populating Orderlines');
+        });
+      });
     });
   });
 });
