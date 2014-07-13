@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('orderlyApp')
-  .controller('OrderCtrl', function($scope, $http) {
+  .controller('OrderCtrl', function($scope, $http, Auth) {
     $scope.orders = [];
 
     $http.get('/api/orders').success(function(orders) {
@@ -12,12 +12,14 @@ angular.module('orderlyApp')
       if($scope.orderRestaurant === '')
         return;
 
-      $http
-        .post('/api/orders', { restaurant: $scope.orderRestaurant })
-        .success(function(data, status) {
-          console.log(data);
-          console.log(status);
+      var user = Auth.getCurrentUser();      
 
+      $http
+        .post('/api/orders', { 
+          restaurant: $scope.orderRestaurant,
+          owner: user._id
+        })
+        .success(function(data, status) {
           $http.get('/api/orders').success(function(orders) {
             $scope.orders = orders;
           });
