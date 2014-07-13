@@ -22,9 +22,12 @@ exports.index = function(req, res) {
 
 // Get a single order
 exports.show = function(req, res) {
-  Order.findById(req.params.id, function (err, order) {
-    if(err) { return handleError(res, err); }
-    if(!order) { return res.send(404); }
+  Order.findById(req.params.id).populate('owner').exec(function(err, order) {
+    if(err)
+      return handleError(res, err);
+    if(!order)
+      return res.send(404);
+
     return res.json(order);
   });
 };
