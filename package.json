@@ -90,5 +90,19 @@
     "test": "grunt test",
     "update-webdriver": "node node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update"
   },
-  "private": true
+  "private": true,
+  "description": "Orderly =======",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cosmin-Parvulescu/Orderly.git"
+  },
+  "keywords": [
+    "food"
+  ],
+  "author": "Cosmin Parvulescu, Claudiu Olteanu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cosmin-Parvulescu/Orderly/issues"
+  },
+  "homepage": "https://github.com/Cosmin-Parvulescu/Orderly"
 }
