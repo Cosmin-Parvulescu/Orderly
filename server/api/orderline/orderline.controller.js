@@ -29,6 +29,21 @@ exports.show = function(req, res) {
   });
 };
 
+// Get orderlines related to an Order
+exports.showByOrder = function(req, res) {
+  Orderline.find({ order: req.params.id }).populate('orderitems owner').exec(function(err, orderlines) {
+    if(err) {
+      return handleError(res, err);
+    }
+
+    if(!orderlines) {
+      return res.send(404);
+    }
+
+    return res.json(orderlines);
+  });
+}; 
+
 // Creates a new orderline in the DB.
 exports.create = function(req, res) {
   Orderline.create(req.body, function(err, orderline) {
