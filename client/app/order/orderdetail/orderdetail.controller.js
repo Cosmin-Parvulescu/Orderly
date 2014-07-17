@@ -5,7 +5,7 @@ angular.module('orderlyApp')
     $scope.order = {};
 
     var orderId = $routeParams.orderId; 
-    var getUrl = '/api/orders/' + orderId;
+    var getOrderByIdUrl = '/api/orders/' + orderId;
 
     /*
     * Not sure if this is how it should be done,
@@ -13,9 +13,13 @@ angular.module('orderlyApp')
     * as params {} doesn't seem to GET from the
     * right route action.
     */
-    $http.get(getUrl).success(function(order) {
-      $scope.order = order;
+    var getOrderById = function(OrderId) {
+      $http.get(getOrderByIdUrl).success(function(order) {
+        $scope.order = order;
 
-      console.log($scope.order);
-    });
+        console.log($scope.order);
+      });
+    };
+
+    getOrderById();
   });
