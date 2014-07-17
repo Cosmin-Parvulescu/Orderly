@@ -475,6 +475,10 @@ module.exports = function (grunt) {
     if (target === 'dist') {
       return grunt.task.run(['build', 'env:all', 'env:prod', 'express:prod', 'open', 'express-keepalive']);
     }
+    
+    if (target === 'heroku') {
+      return grunt.task.run(['build', 'env:all', 'env:prod', 'express:prod', 'express-keepalive']);
+    }
 
     if (target === 'debug') {
       return grunt.task.run([
@@ -497,7 +501,6 @@ module.exports = function (grunt) {
       'autoprefixer',
       'express:dev',
       'wait',
-      'open',
       'watch'
     ]);
   });
