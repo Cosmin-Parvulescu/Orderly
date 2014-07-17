@@ -2,8 +2,6 @@
 
 angular.module('orderlyApp')
   .controller('OrderdetailCtrl', function($scope, $http, $routeParams) {
-    $scope.order = {};
-
     var orderId = $routeParams.orderId; 
     var getOrderByIdUrl = '/api/orders/' + orderId;
 
