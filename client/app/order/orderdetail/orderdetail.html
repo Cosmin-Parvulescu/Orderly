@@ -8,4 +8,24 @@
       <small>{{order.owner.name}}</small>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div id="orderlines">
+        <div ng-repeat="orderline in orderlines" class="orderline">
+          <ul class="orderitems">
+            <li ng-repeat="orderitem in orderline.orderitems" class="orderitem" tooltip="{{orderitem.price}}">{{orderitem.name}}</li>
+          </ul>
+
+          <div>
+            <small>Owner: {{orderline.owner.name}}</small>
+          </div>
+
+          <div>
+            <small>Total: {{orderline.total}}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

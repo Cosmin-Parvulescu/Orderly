@@ -22,4 +22,6 @@ OrderlineSchema.virtual('total').get(function() {
   return total;
 });
 
+OrderlineSchema.set('toJSON', { virtuals: true });
+
 module.exports = mongoose.model('Orderline', OrderlineSchema);

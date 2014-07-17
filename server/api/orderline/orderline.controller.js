@@ -31,7 +31,7 @@ exports.show = function(req, res) {
 
 // Get orderlines related to an Order
 exports.showByOrder = function(req, res) {
-  Orderline.find({ order: req.params.id }, function(err, orderlines) {
+  Orderline.find({ order: req.params.id }).populate('orderitems owner').exec(function(err, orderlines) {
     if(err) {
       return handleError(res, err);
     }
