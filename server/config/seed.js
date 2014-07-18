@@ -25,34 +25,6 @@ Orderstatus.find({}).remove(function() {
   });
 });
 
-Order.find({}).remove(function() {
-  Orderstatus.findOne({ status: 'Initiat' }, function(err, orderstatusRes) {
-    Order.create({
-      restaurant: 'Graffiti',
-      orderstatus: orderstatusRes._id
-    }, function() {
-      console.log('Finished populating Orders');
-
-      Order.findOne(function(err, orderRes) {
-        var foodstuff = [{
-          name: 'Pork Tandoori',
-          price: 18.5 // desi e 18 :(
-        }, {
-          name: 'Tortellini bianco al forno',
-          price: 18
-        }];
-
-        Orderline.create({
-          order: orderRes._id,
-          orderitems: foodstuff
-        }, function() {
-          console.log('Finished populating Orderlines');
-        });
-      });
-    });
-  });
-});
-
 Thing.find({}).remove(function() {
   Thing.create({
     name : 'Development Tools',
@@ -75,7 +47,9 @@ Thing.find({}).remove(function() {
   });
 });
 
-User.find({}).remove(function() {
+User.find({}).remove(function(err) {
+  if (err) return console.error(err);
+
   User.create({
     provider: 'local',
     name: 'Test User',
@@ -87,8 +61,65 @@ User.find({}).remove(function() {
     name: 'Admin',
     email: 'admin@admin.com',
     password: 'admin'
-  }, function() {
-      console.log('finished populating users');
-    }
-  );
+  }, function(err, userRes) { 
+  
+    if (err) return console.error(err);
+ 
+    Order.find({}).remove(function(err) {
+      if (err) return console.error(err);
+    });
+
+    Order.create({
+      restaurant: 'Grafitti',
+      owner: userRes._id,
+    }, function(err, orderRes) {
+      if (err) return console.error(err);
+
+      var foodstuff = [{
+        name: 'Pork Tandoori',
+        price: 18.5 // desi e 18 :(
+      }, {
+        name: 'Tortellini bianco al forno',
+        price: 18
+      }, {
+        name: 'Pizza taraneasca',
+        price: 20
+      }];
+        
+      Orderline.create({
+        order: orderRes._id,
+        orderitems: foodstuff,
+        owner: userRes._id,
+      }, function(err) {
+        if (err) return console.error(err);
+        
+        console.log('Finished populating Orderlines');
+      });
+    });
+
+    Order.create({
+      restaurant: 'Shaorma Kogalniceanu',
+      owner: userRes._id,
+    }, function(err, orderRes) {
+      if (err) return console.error(err);
+
+      var foodstuff = [{
+        name: 'Shaorma mare cu de toate (caini, pisici)',
+        price: 5
+      }, {
+        name: 'Shaorma mica fara carne (de post)',
+        price: 3
+      }];
+        
+      Orderline.create({
+        order: orderRes._id,
+        orderitems: foodstuff,
+        owner: userRes._id,
+      }, function(err) {
+        if (err) return console.error(err);
+        
+        console.log('Finished populating Orderlines');
+      });
+    });
+  });
 });
