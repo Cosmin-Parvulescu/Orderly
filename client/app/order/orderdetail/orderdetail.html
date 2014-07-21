@@ -3,18 +3,52 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
-      <h1>{{order.restaurant}}</h1>
-      <small>{{order.date | date: 'dd / MM / yy'}}</small> <br />
-      <small>{{order.owner.name}}</small>
+      <div class="order-info">
+        <h1>{{order.restaurant}}</h1>
+        <small>Order date: {{order.date | date: 'dd / MM / yy'}}</small> <br />
+        <small>Owner: {{order.owner.name}}</small>
+      </div>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-4" ng-hide="!isAuthenticated()">
+      <h4>Product items</h4>
+      <form role="form">
+        <div class="form-group">
+          <label for="orderitemName" class="control-label">Product</label>
+          <input type="text" id="orderitemName" ng-model="orderitemName" placeholder="Product name">
+        </div>
+
+        <div class="form-group">
+          <label for="orderitemPrice" class="control-label">Price (be fair)</label>
+          <input type="number" id="orderitemPrice" ng-model="orderitemPrice" placeholder="Product price">
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-sm" ng-click="addOrderitem()">Add orderitem</button>
+        </div>
+
+        <div ng-show="hasOrderline()">
+          <h4>My orderline</h4>
+          <ul class="orderitems list-inline list-unstyled">
+            <li ng-repeat="orderitem in orderitems" class="orderitem"><span class="bg-info orderitem" tooltip="{{orderitem.price}}">{{orderitem.name}}</span></li>
+          </ul>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-success btn-lg" ng-click="sendOrderline()">Send orderline</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-lg-8">
+      <h4>Orderlines</h4>
+      <hr>
       <div id="orderlines">
         <div ng-repeat="orderline in orderlines" class="orderline">
-          <ul class="orderitems">
-            <li ng-repeat="orderitem in orderline.orderitems" class="orderitem" tooltip="{{orderitem.price}}">{{orderitem.name}}</li>
+          <ul class="list-inline list-unstyled orderitems">
+            <li ng-repeat="orderitem in orderline.orderitems" class="orderitem"><span class="bg-info orderitem" tooltip="{{orderitem.price}}">{{orderitem.name}}</span></li>
           </ul>
 
           <div>
@@ -24,30 +58,10 @@
           <div>
             <small>Total: {{orderline.total}}</small>
           </div>
+
+          <hr>
         </div>
       </div>
-    </div>
-  </div>
-
-  <div class="row" ng-hide="!isAuthenticated()">
-    <div class="col-lg-4">
-      <form>
-        <input type="text" ng-model="orderitemName" placeholder="Product name">
-        <input type="number" ng-model="orderitemPrice" placeholder="Product price">
-
-        <button type="submit" ng-click="addOrderitem()">Add orderitem</button>
-      </form>
-    </div>
-
-    <div class="col-lg-8">
-      <h2>My items</h2>
-      <ul class="orderitems">
-        <li ng-repeat="orderitem in orderitems" class="orderitem" tooltip="{{orderitem.price}}">{{orderitem.name}}</li>
-      </ul>
-
-      <form>
-        <button type="submit" ng-click="sendOrderline()">Send orderline</button>
-      </form>
     </div>
   </div>
 </div>

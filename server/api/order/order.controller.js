@@ -14,7 +14,7 @@ var Order = require('./order.model');
 
 // Get list of orders
 exports.index = function(req, res) {
-  Order.find(function (err, orders) {
+  Order.find().populate('owner').exec(function (err, orders) {
     if(err) { return handleError(res, err); }
     return res.json(200, orders);
   });

@@ -63,6 +63,10 @@ angular.module('orderlyApp')
       return Auth.isLoggedIn();
     }
 
+    $scope.hasOrderline = function() {
+      return $scope.orderitems.length > 0;
+    }
+
     getOrder();
     getOrderlinesForOrder();
   });
